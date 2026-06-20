@@ -15,11 +15,6 @@ const anthropic = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY });
 const YT_KEY = process.env.YOUTUBE_API_KEY;
 const MODEL = "claude-sonnet-4-6";
 
-// ---------------------------------------------------------------------------
-// YouTube discovery — pulls real metadata (titles, channels, view counts) for
-// a niche keyword. This is used downstream only to extract GENERAL patterns,
-// never to copy a specific title, channel, or character.
-// ---------------------------------------------------------------------------
 app.post("/api/youtube/discover", async (req, res) => {
   try {
     const { query } = req.body;
@@ -61,9 +56,6 @@ app.post("/api/youtube/discover", async (req, res) => {
   }
 });
 
-// ---------------------------------------------------------------------------
-// Generic Claude call helper
-// ---------------------------------------------------------------------------
 async function callClaude(system, user, maxTokens = 1200) {
   const msg = await anthropic.messages.create({
     model: MODEL,
@@ -77,7 +69,6 @@ async function callClaude(system, user, maxTokens = 1200) {
     .join("\n\n");
 }
 
-// ---- Agent 1: Trend Scout (reads the YouTube data, extracts patterns only) ----
 app.post("/api/agent/trend", async (req, res) => {
   try {
     const { niche, videos } = req.body;
@@ -103,7 +94,6 @@ app.post("/api/agent/trend", async (req, res) => {
   }
 });
 
-// ---- Agent 2: Concept Architect ----
 app.post("/api/agent/concept", async (req, res) => {
   try {
     const { niche, trendBrief } = req.body;
@@ -121,7 +111,6 @@ app.post("/api/agent/concept", async (req, res) => {
   }
 });
 
-// ---- Agent 3: Episode Writer ----
 app.post("/api/agent/script", async (req, res) => {
   try {
     const { concept, topic } = req.body;
@@ -138,7 +127,6 @@ app.post("/api/agent/script", async (req, res) => {
   }
 });
 
-// ---- Agent 4: Visual Designer ----
 app.post("/api/agent/visual", async (req, res) => {
   try {
     const { concept } = req.body;
@@ -155,7 +143,6 @@ app.post("/api/agent/visual", async (req, res) => {
   }
 });
 
-// ---- Agent 5: Originality & Safety QA ----
 app.post("/api/agent/qa", async (req, res) => {
   try {
     const { concept, script, visual } = req.body;
@@ -169,9 +156,7 @@ app.post("/api/agent/qa", async (req, res) => {
     let parsed = null;
     try {
       parsed = JSON.parse(raw.replace(/```json|```/g, "").trim());
-    } catch {
-      // leave parsed as null; frontend falls back to raw text
-    }
+    } catch {}
     res.json({ raw, parsed });
   } catch (e) {
     res.status(500).json({ error: e.message });
