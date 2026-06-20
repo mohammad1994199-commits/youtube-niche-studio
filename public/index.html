@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Original Content Studio</title>
+<link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="wrap">
+    <p class="eyebrow">Original Content Studio</p>
+    <h1>Find the niche.<br />Build something nobody can claim.</h1>
+    <p class="sub">
+      Search YouTube for a children's content niche, then run it through agents that study the
+      pattern and invent original characters, scripts, and art direction — never copying what's
+      already out there.
+    </p>
+
+    <div class="card">
+      <label for="niche">Niche keyword</label>
+      <input id="niche" placeholder="e.g. counting songs for toddlers" />
+      <button id="discoverBtn">Search YouTube</button>
+      <p id="discoverStatus" class="status"></p>
+      <div id="videoResults"></div>
+    </div>
+
+    <div class="card" id="pipelineCard" hidden>
+      <label for="topic">Episode topic</label>
+      <input id="topic" placeholder="e.g. counting forest animals" />
+      <button id="runBtn">Run pipeline</button>
+    </div>
+
+    <div id="stages"></div>
+
+    <p class="footnote">
+      This tool studies patterns in existing content to build original IP — it does not copy
+      titles, characters, or scripts from the videos it finds.
+    </p>
+  </div>
+  <script src="app.js"></script>
+</body>
+</html>
